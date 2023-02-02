@@ -12,6 +12,7 @@ def task1():
         aver.append(statistics.mean(i))
         print(i)
     print(f'Наибольший средний балл у группы: {aver.index(max(aver))} и равен {max(aver)}')
+task1()
 # Задача 2. Дана квадратная матрица, заполненная случайными числами. 
 # Определите, сумма элементов каких строк превосходит сумму главной 
 # диагонали матрицы.
@@ -26,7 +27,7 @@ def task2():
     for i in matrix:
      if sum(i)>=sum_main:
         print(f'Сумма элементов строки {matrix.index(i)} равна {sum(i)} и превышает сумму элементов главной диагонали {sum_main}')     
-
+task2()
 # Задача 3. В двумерном массиве хранятся средние дневные температуры с мая по сентябрь за прошлый год.
 #  Каждому месяцу соответствует своя строка.
 # Определите самый жаркий и самый холодный 7-дневный промежуток каждого месяца. 
@@ -49,89 +50,56 @@ def task3():
         max_value=max(period_values)
         min_value=min(period_values)
         print(f'Самый жаркий 7 дневный период {mounth_name[temperatures.index(i)]}: {period_values.index(max_value)}-{period_values.index(max_value)+7}, Самый холодный 7 дневный период {mounth_name[temperatures.index(i)]}:{period_values.index(min_value)}-{period_values.index(min_value)+7}')
+task3()
 # Задача 4* (Дополнительная). Реализуйте игру «Поле чудес». 
 # Вопрос и правильный ответ сохраните в файл. Реализуйте алгоритм шифрования правильного ответа.
-def task4():
-    def get_question():
-        with open('questions.txt', 'r', encoding='utf-8') as f:
-            question_list=f.read().splitlines()
-        number_question=random.randrange(0,len(question_list))
-        question_answer=str(question_list[number_question])
-        for i in range(0,len(question_answer)):
-            if question_answer[i]==':':
-                question=question_answer[0:i]
-                answer=question_answer[i+1:len(question_answer)]
-        return answer, question
-    answer, question=get_question()
-    print(question)
-    print(answer)
-    current_view=[]
-    for i in range(0, len(answer)):
-        current_view.append('*')
-        print(''.join(current_view))
-    while True:
-        user=input('Угадайте букву или назовите слово')
-        if user==answer:
-            print('Вы правильно угадали слово!'); break
-        if (user in answer):
-            print('Есть такая буква!')
-            for i in range(0, len(answer)):
-                if answer[i]==user:
-                    current_view[i]=user
-                    current_view[i]==''.join(current_view)
-        else:
-            print('Вы не угадали')
-        if current_view == answer: 
-            print('Вы правильно угадали все буквы'); break
-        print(answer)
-task4()
-import random
-db = [
-  ['Живопись по сырой штукатурке водяными красками', 'фреска'],
-  ['С японского это слово переводится как «Божественный ветер»', 'Камикадзе'],
-  ['Как называлась раньше карточная масть пики', 'Лопата'],
-  ['Эта сказочная героиня была описана в греческой истории под именем Родопис', 'Золушка'],
-  ['Какой музыкальный инструмент имеет голову, гребень, натянутый обруч и подлокотник', 'Банджо'],
-  ['Геометрический термин, широко используемый в характеристике современной техники', 'Диагональ'],
-  ['Детеныши этого животного приобретают пол в зависимости от температуры окружающей среды', 'Крокодил'],
+
+q_a_list = [
+  ['Так в старину называли сторожа городских ворот', 'ЕУГХГУЯ'],
+  ['С японского это слово переводится как «Божественный ветер»', 'НГПЛНГЖКЗ'],
+  ['Анисовая настойка или ликер', 'ГДФЗРХ'],
+  ['Название этого растения произошло от греческого «порождающий чистоту»', 'ДГНОГЙГР'],
+  ['Что изготавливал в старину скудельник?', 'НЦЕЫЛР'],
+  ['Противовес «естественного отбора», созданный человеком', 'ФЗОЗНЩЛВ'],
+  ['Что считается самой распространенной в мире незаразной болезнью', 'НГУЛЗФ'],
 ]
+def cesar(word):
+    alpha = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ'
+    a = 3
+    b = word.upper()
+    res = ''
+    for i in b:
+        res += alpha[(alpha.index(i) - a) % len(alpha)]
+    return res
 
-# def show_display_word():
-#   global display_word
-#   print(' | '.join(display_word).upper())
+def show_answer():
+    global answer
+    print(' | '.join(answer).upper())
 
-# q_a = random.choice(db)
-# question = q_a[0]
-# correct_answer = q_a[1]
-# display_word = ['*'] * len(correct_answer)
-# print('Вопрос:')
-# print(question)
+q_a = random.choice(q_a_list)
+question = q_a[0]
+correct_answer = cesar(q_a[1])
+answer = ['*'] * len(correct_answer)
+print('Вопрос:')
+print(question)
 
-
-# win = False
-# while not win:
-#   show_display_word()
-#   print('\nНазовите букву или слово')
-#   a = input()
-#   if len(a) > 1:
-#     #  Сценарий, если ввели слово
-#     if a.upper() == correct_answer.upper():
-#       #  Если слово совпадает с правильным
-#       win = True
-#       print('Вы победили')
-#     else:
-#       #  Если слово не совпадает с правильным
-#       print('Вы ошиблись, переход хода')
-#   else:
-#     #  Сценарий, если ввели букву
-#     if not a.upper() in correct_answer.upper():
-#       #  Если такой буквы нет в слове
-#       print('Такой буквы нет\nПереход хода')
-#     else:
-#       #  Если буква есть
-#       print('Есть такая буква!')
-#       print(f'Откройте нам букву {a.upper()}')
-#       for i in range(len(correct_answer)):
-#         if a.upper() == correct_answer[i].upper():
-#           display_word[i] = a.upper()
-# show_display_word()
+win = False
+while not win:
+  show_answer()
+  print('\nНазовите букву или слово')
+  letter = input()
+  if len(letter) > 1:
+    if letter.upper() == correct_answer.upper():
+      win = True
+      print('Вы победили')
+    else:
+      print('Оказия!! Переход хода')
+  else:
+    if not letter.upper() in correct_answer.upper():
+      print('Нет такой буквы\nПереход хода')
+    else:
+      print('Есть такая буква!')
+      print(f'Откройте нам букву {letter.upper()}')
+      for i in range(len(correct_answer)):
+        if letter.upper() == correct_answer[i].upper():
+          answer[i] = letter.upper()         
